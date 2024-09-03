@@ -1,4 +1,4 @@
-import React,  { useState, useEffect } from "react";
+import React, {useState, useEffect} from "react";
 
 /*
  * Banner: pulls an image url from api.nasa.gov and displays the site banner
@@ -24,21 +24,31 @@ const Banner: React.FC = () => {
 
         fetchImg();
 
+        /*
         const handleResize = () => {
             const bannerElement = document.querySelector('.banner');
             bannerElement?.setAttribute('style', `background-image: url(${window.innerWidth > 800? hdImgUrl : imgUrl})`);
         };
+        */
+        // Function to update the current image URL based on window size
+        const handleResize = () => {
+            setCurrentImgUrl(window.innerWidth > 800 ? hdImgUrl : imgUrl);
+        };
+
 
         window.addEventListener('resize', handleResize);
 
         handleResize();
-    }, []);
+        return () => {
+            window.removeEventListener('resize', handleResize);
+        };
+    }, [hdImgUrl, imgUrl]); // Add dependencies to run effect when image URLs change
 
     if (!currentImgUrl)
         return <p>Banner Loading...</p>;
 
     return (
-        <div className="banner" style={{ backgroundImage: `url(${currentImgUrl})` }}>
+        <div className="banner" style={{backgroundImage: `url(${currentImgUrl})`}}>
             <h1>To Do List</h1>
             {copyright && (
                 <p className="copyright">{copyright}©</p>
