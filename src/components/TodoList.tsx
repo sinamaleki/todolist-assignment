@@ -17,6 +17,7 @@ function TodoList({ todos, deleteTodo, toggleComplete, toggleUrgent }: TodoListP
         <ul>
             {todos.map((todo) => (
                 <TodoItem
+                    key={todo.id} // Sina - Added key prop to avoid showing unique key prop error in console
                     todo={todo}
                     deleteTodo={deleteTodo}
                     toggleComplete={toggleComplete}
