@@ -44,17 +44,43 @@ export default function Home() {
     const deleteTodo = (id: number) => {
         setTodos(todos.filter((todo) => todo.id === id));
     };
-
-    const toggleProperty = useCallback((id: number, property: keyof Pick<Todo, 'isCompleted' | 'isUrgent'>) => {
-        const updatedTodos = todos.map((todo) => {
-            if (todo.id === id) {
-                todo[property] = !todo[property] as boolean;
-            }
-            return todo;
-        });
-        setTodos(updatedTodos);
-    }, [setTodos]);
-
+    /*
+        const toggleProperty = useCallback((id: number, property: keyof Pick<Todo, 'isCompleted' | 'isUrgent'>) => {
+            const updatedTodos = todos.map((todo) => {
+                if (todo.id === id) {
+                    todo[property] = !todo[property] as boolean;
+                }
+                return todo;
+            });
+            setTodos(updatedTodos);
+        }, [setTodos]);
+    */
+    /**
+     * toggleProperty: Toggles a specified property ('isCompleted' or 'isUrgent') for a todo item by its ID.
+     *
+     * This function finds the todo item with the given ID and creates a new todo object with the specified property toggled.
+     * It uses the React useCallback hook to memoize the function, ensuring it only re-creates if its dependencies change.
+     *
+     * Edited by Sina on branch bugfix-5:
+     * - Refactored the function to create a new todo object instead of mutating the existing one, ensuring proper state updates.
+     * - Added dependencies to the useCallback hook to optimize performance and prevent unnecessary re-renders.
+     *
+     * @param {number} id - The ID of the todo item to update.
+     * @param {keyof Pick<Todo, 'isCompleted' | 'isUrgent'>} property - The property ('isCompleted' or 'isUrgent') to toggle.
+     */
+    const toggleProperty = useCallback(
+        (id: number, property: keyof Pick<Todo, 'isCompleted' | 'isUrgent'>) => {
+            const updatedTodos = todos.map((todo) => {
+                if (todo.id === id) {
+                    // Create a new todo object with the toggled property
+                    return {...todo, [property]: !todo[property]};
+                }
+                return todo;
+            });
+            setTodos(updatedTodos);
+        },
+        [todos, setTodos] // Properly watch state changes
+    );
     const displayTodoList = (todoList: Todo[]) => {
         return (
             <TodoList
