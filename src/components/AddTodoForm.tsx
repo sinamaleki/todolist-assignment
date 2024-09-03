@@ -13,6 +13,7 @@ function AddTodoForm({ addTodo }: AddTodoFormProps) {
     const [desc, setDesc] = useState<string>('');
 
     const handleSubmit = (event: React.FormEvent) => {
+        event.preventDefault(); // Prevent the page from reloading - Added by Sina on branch bugfix-4
         addTodo(title, desc);
         setTitle('');
         setDesc('');
@@ -24,6 +25,7 @@ function AddTodoForm({ addTodo }: AddTodoFormProps) {
                 <label>Title:</label>
                 <input
                     type="text"
+                    value={title} // Added the input value to ensure it is controlled by React state, allowing for easier reset and state management
                     placeholder="Provide a title for the new To Do"
                     onChange={(e) => setTitle(e.target.value)}
                     required

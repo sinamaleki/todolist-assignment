@@ -11,7 +11,9 @@ const Banner: React.FC = () => {
 
     useEffect(() => {
         const fetchImg = async () => {
-            const res = await fetch('https://api.nasa.gov/planetary/apod?api_key=DEMO_KEY');
+            //const res = await fetch('https://api.nasa.gov/planetary/apod?api_key=DEMO_KEY');
+            const apiKey = process.env.NEXT_PUBLIC_NASA_API_KEY; // The API key is accessed via `process.env.NEXT_PUBLIC_NASA_API_KEY`, ensuring it is stored securely and not hard-coded. Added by Sina on branch bugfix-6
+            const res = await fetch(`https://api.nasa.gov/planetary/apod?api_key=${apiKey}`);
             const data = await res.json();
 
             setImgUrl(data.url);
