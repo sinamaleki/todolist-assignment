@@ -31,9 +31,14 @@ export default function Home() {
             isCompleted: false,
             isUrgent: false,
         };
+        /*
+            todos.push(newTodo);
+            setTodos(todos);
 
-        todos.push(newTodo);
-        setTodos(todos);
+         */
+        // Create a new array with the added todo to avoid direct mutation
+        // Edited by Sina on branch bugfix-4
+        setTodos((prevTodos) => [...prevTodos, newTodo]);
     };
 
     const deleteTodo = (id: number) => {
